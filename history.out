@@ -1,0 +1,295 @@
+    1  sudo dnf upgrade --refresh
+    2  sudo usermod -aG vboxsf "$USER"
+    3  sudo reboot
+    4  groups
+    5  echo "Hello from Fedora" > /media/sf_VM-Share/test2.txt
+    6  ls -l /media/sf_VM-Share
+    7  getent passwd 1234
+    8  getent passwd user1
+    9  sudo groupadd students
+   10  sudo useradd -m -u 1234 -g students -s /bin/bash user1
+   11  sudo passwd user1
+   12  sudo chage -M 90 user1
+   13  id user1
+   14  sudo chage -l user1
+   15  sudo find / -type f -perm -4000 -print 2>/dev/null
+   16  ls -l /usr/bin/passwd
+   17  ps -eo pid,ruid,euid,comm | awk 'NR == 1 || ($2 >= 1000 && $3 == 0)'
+   18  ls -l /etc/shadow
+   19  cat /etc/shadow > /dev/null
+   20  echo $?
+   21  sudo cat /etc/shadow > /dev/null
+   22  echo $?
+   23  cp /usr/bin/cat ~/cat-suid
+   24  ls -l ~/cat-suid
+   25  sudo chown root:root ~/cat-suid
+   26  sudo chmod 4755 ~/cat-suid
+   27  ls -l ~/cat-suid
+   28  cat /etc/shadow > /dev/null
+   29  echo $?
+   30  ~/cat-suid /etc/shadow > /dev/null
+   31  echo $?
+   32  touch ~/lab4-test.txt
+   33  ls -l ~/lab4-test.txt
+   34  chown user1 ~/lab4-test.txt
+   35  echo $?
+   36  sudo chown user1 ~/lab4-test.txt
+   37  ls -l ~/lab4-test.txt
+   38  cp /usr/bin/chown ~/chown-cap
+   39  ls -l ~/chown-cap
+   40  sudo chown root:root ~/chown-cap
+   41  sudo chmod 755 ~/chown-cap
+   42  sudo setcap cap_chown=ep ~/chown-cap
+   43  getcap ~/chown-cap
+   44  ls -l ~/chown-cap
+   45  sudo chown "$USER" ~/lab4-test.txt
+   46  ls -l ~/lab4-test.txt
+   47  chown user1 ~/lab4-test.txt
+   48  echo $?
+   49  ~/chown-cap user1 ~/lab4-test.txt
+   50  echo $?
+   51  ls -l ~/lab4-test.txt
+   52  command -v date
+   53  sudo visudo -f /etc/sudoers.d/user1-time
+   54  sudo chmod 440 /etc/sudoers.d/user1-time
+   55  sudo visudo -c
+   56  su - user1
+   57  Бухгалтерский шифр обучающегося: 375706
+   58  history > ~/history.out
+   59  stat /home/user1 > ~/stat.out
+   60  stat ~/cat-suid >> ~/stat.out
+   61  stat ~/chown-cap >> ~/stat.out
+   62  getcap ~/cat-suid ~/chown-cap > ~/getcap.out
+   63  sudo find / -type f -perm -4000 -print > ~/suid-files.out 2>/dev/null
+   64  ls -l /usr/bin/passwd ~/cat-suid > ~/suid-permissions.out
+   65  ps -eo pid,ruid,euid,comm | awk 'NR == 1 || ($2 >= 1000 && $3 == 0)' > ~/processes.out
+   66  ls -lh ~/history.out ~/stat.out ~/getcap.out ~/suid-files.out ~/suid-permissions.out ~/processes.out
+   67  cat ~/getcap.out
+   68  cat ~/processes.out
+   69  history > ~/history.out
+   70  cp ~/history.out ~/stat.out ~/getcap.out ~/suid-files.out ~/suid-permissions.out ~/processes.out /media/sf_VM-Share/
+   71  ls -lh /media/sf_VM-Share/*.out
+   72  git --version
+   73  gh --version
+   74  gh auth login
+   75  grep -E '^(root|eugene|user1):' /etc/passwd > /media/sf_VM-Share/passwd
+   76  grep -E '^(root|eugene|students):' /etc/group > /media/sf_VM-Share/group
+   77  sudo awk -F: 'BEGIN {OFS=":"} ($1=="root" || $1=="eugene" || $1=="user1") {$2="REDACTED"; print}' /etc/shadow > /media/sf_VM-Share/shadow
+   78  sudo grep -E '^(Defaults|root[[:space:]]|%wheel[[:space:]]|@includedir|#includedir)' /etc/sudoers > /media/sf_VM-Share/sudoers
+   79  sudo cat /etc/sudoers.d/user1-time > /media/sf_VM-Share/sudoers-user1-time
+   80  nmcli device status
+   81  sudo nmcli connection modify "Проводное подключение 1" ipv4.method auto
+   82  sudo nmcli connection up "Проводное подключение 1"
+   83  ip -4 addr
+   84  nmcli -f ipv4.method connection show "Проводное подключение 1"
+   85  sudo hostnamectl set-hostname mephi-2026.domain.local
+   86  hostname
+   87  cat /etc/hostname
+   88  ping -c 4 8.8.8.8 > ~/ping.out 2>&1
+   89  cat ~/ping.out
+   90  ls -l ~/ping.out
+   91  nmcli device status
+   92  cp ~/ping.out /media/sf_VM-Share/
+   93  sudo dnf --disable-repo=fedora-cisco-openh264 install nginx libcap-ng-utils
+   94  rpm -q nginx libcap-ng-utils
+   95  command -v nginx
+   96  command -v filecap
+   97  dnf --disable-repo=fedora-cisco-openh264 download --destdir=/tmp tcpdump
+   98  ls -lh /tmp/tcpdump-*.rpm
+   99  rpm -q tcpdump
+  100  sudo rpm -ivh /tmp/tcpdump-*.rpm
+  101  rpm -q tcpdump
+  102  tcpdump --version
+  103  dnf history list > ~/dnf.out
+  104  rpm -q nginx libcap-ng-utils tcpdump > ~/packages.out
+  105  cat ~/dnf.out
+  106  cat ~/packages.out
+  107  ls -lh ~/dnf.out ~/packages.out /tmp/tcpdump-*.rpm
+  108  rpm -q nginx libcap-ng-utils tcpdump
+  109  tcpdump --version
+  110  ls -lh /tmp/tcpdump-*.rpm
+  111  cp ~/dnf.out ~/packages.out /media/sf_VM-Share/
+  112  lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+  113  sudo systemctl poweroff
+  114  sudo systemctl poweroff -i
+  115  lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINTS
+  116  sudo fdisk /dev/sdb
+  117  lsblk /dev/sdb
+  118  sudo mkfs.ext4 -L MEPHI_WEB /dev/sdb1
+  119  sudo blkid /dev/sdb1
+  120  sudo mkdir -p /mephi-web
+  121  sudo cp /etc/fstab /etc/fstab.bak
+  122  printf 'LABEL=MEPHI_WEB /mephi-web ext4 defaults 0 2\n' | sudo tee -a /etc/fstab
+  123  sudo mount /mephi-web
+  124  findmnt /mephi-web
+  125  df -hT /mephi-web
+  126  lsblk -f /dev/sdb
+  127  sudo systemctl daemon-reload
+  128  grep -n 'MEPHI_WEB' /etc/fstab
+  129  sudo findmnt --verify
+  130  sudo systemctl reboot -i
+  131  findmnt /mephi-web
+  132  lsblk -f /dev/sdb
+  133  df -hT /mephi-web
+  134  sudo nginx -t
+  135  sudo systemctl enable --now nginx
+  136  systemctl status nginx --no-pager
+  137  systemctl is-enabled nginx
+  138  systemctl is-active nginx
+  139  curl -I http://127.0.0.1
+  140  sudo journalctl -b -u nginx.service --no-pager
+  141  sudo journalctl -b -u nginx.service --no-pager > ~/journalctl.out
+  142  cat ~/journalctl.out
+  143  ls -lh ~/journalctl.out
+  144  wc -l ~/journalctl.out
+  145  systemctl is-enabled nginx
+  146  systemctl is-active nginx
+  147  cp ~/journalctl.out /media/sf_VM-Share/
+  148  id user1
+  149  getent passwd 5501 5502 5503
+  150  getent group mephi-dev
+  151  getent group curators
+  152  command -v setfacl
+  153  command -v getfacl
+  154  ls -ld /data /data/mephi-2026 2>/dev/null
+  155  getent group 4444
+  156  getent passwd user2 user3 curator1 curator2
+  157  sudo groupadd mephi-dev
+  158  sudo groupadd -g 4444 curators
+  159  sudo usermod -u 5501 -aG mephi-dev user1
+  160  sudo useradd -m -u 5502 -g mephi-dev -s /bin/bash user2
+  161  sudo useradd -m -u 5503 -g mephi-dev -s /bin/bash user3
+  162  sudo useradd -m -g curators -s /bin/bash curator1
+  163  sudo useradd -m -g curators -s /bin/bash curator2
+  164  sudo passwd user2
+  165  sudo passwd user3
+  166  sudo passwd curator1
+  167  sudo passwd curator2
+  168  id user1
+  169  id user2
+  170  id user3
+  171  id curator1
+  172  id curator2
+  173  getent group curators
+  174  sudo mkdir -p /data/mephi-2026
+  175  sudo chown root:mephi-dev /data/mephi-2026
+  176  sudo chmod 2770 /data/mephi-2026
+  177  sudo setfacl -m u::rwx,g::rwx,g:curators:rx,m::rwx,o::--- /data/mephi-2026
+  178  sudo setfacl -d -m u::rwx,g::rwx,g:curators:rx,m::rwx,o::--- /data/mephi-2026
+  179  getfacl /data/mephi-2026
+  180  ls -ld /data /data/mephi-2026
+  181  getfacl /data/mephi-2026
+  182  ls -ld /data /data/mephi-2026
+  183  sudo -u user1 sh -c 'echo "Created by user1" > /data/mephi-2026/user1.txt'
+  184  sudo -u user2 sh -c 'echo "Created by user2" > /data/mephi-2026/user2.txt'
+  185  sudo -u user3 sh -c 'echo "Created by user3" > /data/mephi-2026/user3.txt'
+  186  sudo ls -l /data/mephi-2026
+  187  sudo -u user2 sh -c 'echo "Edited by user2" >> /data/mephi-2026/user1.txt'
+  188  sudo -u user3 sh -c 'echo "Edited by user3" >> /data/mephi-2026/user2.txt'
+  189  sudo -u user1 sh -c 'echo "Edited by user1" >> /data/mephi-2026/user3.txt'
+  190  sudo cat /data/mephi-2026/user1.txt
+  191  sudo cat /data/mephi-2026/user2.txt
+  192  sudo cat /data/mephi-2026/user3.txt
+  193  sudo -u curator1 cat /data/mephi-2026/user1.txt
+  194  sudo -u curator2 cat /data/mephi-2026/user2.txt
+  195  sudo -u curator1 sh -c 'echo "Test" >> /data/mephi-2026/user1.txt'
+  196  sudo -u curator2 sh -c 'echo "Test" >> /data/mephi-2026/user2.txt'
+  197  ls /data/mephi-2026
+  198  cat /data/mephi-2026/user1.txt
+  199  getfacl /data/mephi-2026/user1.txt
+  200  sudo getfacl /data/mephi-2026/user1.txt
+  201  command -v tcpdump
+  202  ls -l /usr/bin/tcpdump
+  203  getcap /usr/bin/tcpdump
+  204  sudo groupadd tcpdumpers
+  205  sudo usermod -aG tcpdumpers user1
+  206  sudo chown root:tcpdumpers /usr/bin/tcpdump
+  207  sudo chmod 750 /usr/bin/tcpdump
+  208  sudo setcap cap_net_raw,cap_net_admin=ep /usr/bin/tcpdump
+  209  getcap /usr/bin/tcpdump
+  210  ls -l /usr/bin/tcpdump
+  211  sudo -u user1 id
+  212  sudo -u user1 tcpdump -i enp0s3 -nn -c 2 icmp
+  213  getenforce
+  214  sestatus
+  215  grep '^SELINUX=' /etc/selinux/config
+  216  printf '<h1>MEPHI 2026</h1><p>SELinux Enforcing - /mephi-web</p>\n' | sudo tee /mephi-web/index.html
+  217  ls -l /mephi-web/index.html
+  218  command -v semanage
+  219  sudo semanage fcontext -a -t httpd_sys_content_t '/mephi-web(/.*)?'
+  220  sudo restorecon -Rv /mephi-web
+  221  ls -ldZ /mephi-web
+  222  ls -lZ /mephi-web/index.html
+  223  sudo grep -RnE '^[[:space:]]*root[[:space:]]+' /etc/nginx/nginx.conf /etc/nginx/conf.d/
+  224  sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+  225  sudo nano /etc/nginx/nginx.conf
+  226  sudo nginx -t
+  227  sudo nano /etc/nginx/nginx.conf
+  228  sudo nginx -t
+  229  sudo systemctl reload nginx
+  230  curl -I http://127.0.0.1
+  231  curl -fsS http://127.0.0.1
+  232  sudo ls -lZ /mephi-web/index.html
+  233  sudo cat /mephi-web/index.html
+  234  sudo nginx -T 2>&1 | grep -nE 'listen|server_name|root[[:space:]]|index[[:space:]]|location|try_files'
+  235  sudo nano /etc/nginx/nginx.conf
+  236  sudo nginx -t
+  237  sudo nl -ba /etc/nginx/nginx.conf | sed -n '30,45p'
+  238  sudo nano /etc/nginx/nginx.conf
+  239  sudo nginx -t
+  240  sudo nano /etc/nginx/nginx.conf
+  241  sudo nginx -t
+  242  sudo systemctl reload nginx
+  243  curl -i http://127.0.0.1/
+  244  getenforce
+  245  id curator1
+  246  id curator2
+  247  getent group curators
+  248  sudo cp -a /etc/pam.d/login /etc/pam.d/login.bak.mephi
+  249  sudo nano /etc/pam.d/login
+  250  sudo dnf install pamtester
+  251  sudo pamtester login curator1 acct_mgmt
+  252  sudo pamtester login curator2 acct_mgmt
+  253  sudo pamtester login user1 acct_mgmt
+  254  sudo pamtester login user2 acct_mgmt
+  255  sudo pamtester login user3 acct_mgmt
+  256  sudo pamtester login eugene acct_mgmt
+  257  grep 'pam_succeed_if.so' /etc/pam.d/login
+  258  sudo cp -a /etc/login.defs /etc/login.defs.bak.mephi
+  259  sudo nano /etc/login.defs
+  260  sudo chage -M 90 eugene
+  261  sudo chage -M 90 user1
+  262  sudo chage -M 90 user2
+  263  sudo chage -M 90 user3
+  264  sudo chage -M 90 curator1
+  265  sudo chage -M 90 curator2
+  266  sudo chage -l user1
+  267  grep pam_pwquality /etc/pam.d/system-auth
+  268  sudo cp -a /etc/security/pwquality.conf /etc/security/pwquality.conf.bak.mephi
+  269  sudo nano /etc/security/pwquality.conf
+  270  grep '^PASS_MAX_DAYS' /etc/login.defs
+  271  sudo awk -F: '$1 ~ /^(eugene|user[123]|curator[12])$/ {print $1, "max_days=" $5}' /etc/shadow
+  272  grep -E '^[[:space:]]*(minlen|dcredit|ucredit|lcredit|ocredit|enforcing|enforce_for_root)[[:space:]=]' /etc/security/pwquality.conf
+  273  grep -nE '^[[:space:]]*enforce_for_root([[:space:]]|$)' /etc/security/pwquality.conf
+  274  command -v pwscore
+  275  printf '%s\n' 'Ab3!Cd4@Ef5' | pwscore
+  276  echo $?
+  277  printf 'Hello from Student: 375706\n' | sudo tee /mephi-web/index.html
+  278  cat /mephi-web/index.html
+  279  ls -lZ /mephi-web/index.html
+  280  curl http://127.0.0.1/
+  281  curl -I http://127.0.0.1/
+  282  $ curl http://localhost/
+  283  curl http://localhost/
+  284  mkdir -p ~/previous-lab-files
+  285  chmod 700 ~/previous-lab-files
+  286  for f in history.out stat.out getcap.out dnf.out ping.out journalctl.out curl.out; do     if [ -f "$HOME/$f" ]; then         cp -p "$HOME/$f" "$HOME/previous-lab-files/$f";     fi; done
+  287  ping -c 4 8.8.8.8 > ~/ping.out
+  288  stat /data/mephi-2026 > ~/stat.out
+  289  getcap /usr/bin/tcpdump > ~/getcap.out
+  290  dnf history list > ~/dnf.out
+  291  sudo journalctl -u nginx -b --no-pager > ~/journalctl.out
+  292  getenforce > ~/getenforce.out
+  293  stat /mephi-web >> ~/stat.out
+  294  curl -fsS http://localhost/ > ~/curl.out
+  295  history > ~/history.out

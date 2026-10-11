@@ -1,0 +1,35 @@
+  Файл: /data/mephi-2026
+  Размер: 54        	Блоков: 0          Блок В/В: 4096   каталог
+Устройство: 0/35	Инода: 168105      Ссылки: 1
+Доступ: (2770/drwxrws---)  Uid: (    0/    root)   Gid: ( 1002/mephi-dev)
+Контекст: unconfined_u:object_r:default_t:s0
+Доступ:        2026-10-11 19:24:38.197222318 +0300
+Модифицирован: 2026-10-11 19:24:22.485077419 +0300
+Изменён:       2026-10-11 19:24:22.485077419 +0300
+Создан:        2026-10-11 19:12:48.970738012 +0300
+  Файл: /mephi-web
+  Размер: 4096      	Блоков: 8          Блок В/В: 4096   каталог
+Устройство: 8/17	Инода: 2           Ссылки: 3
+Доступ: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Контекст: system_u:object_r:httpd_sys_content_t:s0
+Доступ:        2026-10-11 19:52:16.160045872 +0300
+Модифицирован: 2026-10-11 19:49:15.323489595 +0300
+Изменён:       2026-10-11 19:52:16.159045864 +0300
+Создан:        2026-10-10 22:09:47.000000000 +0300
+# file: /data/mephi-2026
+# owner: root
+# group: mephi-dev
+# flags: -s-
+user::rwx
+group::rwx
+group:curators:r-x
+mask::rwx
+other::---
+default:user::rwx
+default:group::rwx
+default:group:curators:r-x
+default:mask::rwx
+default:other::---
+
+    system_u:object_r:httpd_sys_content_t:s0 /mephi-web
+unconfined_u:object_r:httpd_sys_content_t:s0 /mephi-web/index.html
